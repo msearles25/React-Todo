@@ -1,7 +1,8 @@
 import React from 'react';
 
-import TodoForm from './components/TodoComponents/TodoForm'
+import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
+import { convertPatternGroupsToTasks } from 'fast-glob/out/managers/tasks';
 
 const toDoList = []
 
@@ -13,9 +14,34 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
-      toDoList: toDoList
+      toDoList: toDoList,
+      completed: false
     }
   }
+
+  completedTask = id => {
+    this.setState({
+      toDoList: this.state.toDoList.map(task => {
+        if (task.id === id) {
+          return ({
+             ...task, completed: !task.completed
+          });
+        }
+        else {
+          return task;
+        }
+      })
+  })
+}
+
+clearCompleted = () => {
+    const filteredItems = this.state.toDoList.filter(item => {
+      return item.completed === false
+    })
+    this.setState({
+      toDoList: filteredItems,
+    })
+}
 
   addTodo = newTodoText => {
     const newTodoItem = {
@@ -26,6 +52,7 @@ class App extends React.Component {
     this.setState({
       toDoList: [...this.state.toDoList, newTodoItem]
     })
+
   }
 
   render() {
@@ -33,9 +60,12 @@ class App extends React.Component {
       <div>
         <div>
           <h2>Welcome to your Todo App!</h2>
-          <TodoForm addTodo={this.addTodo}/>
+          <TodoForm addTodo={this.addTodo} />
         </div>
-        <TodoList todoList={this.state.toDoList} />
+        <TodoList 
+          todoList={this.state.toDoList} 
+          completedTask={this.completedTask} 
+          clearCompleted={this.clearCompleted}/>
       </div>
     );
   }
