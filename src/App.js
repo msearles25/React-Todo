@@ -2,9 +2,24 @@ import React from 'react';
 
 import TodoForm from './components/TodoComponents/TodoForm';
 import TodoList from './components/TodoComponents/TodoList';
-import { convertPatternGroupsToTasks } from 'fast-glob/out/managers/tasks';
 
-const toDoList = []
+const toDoList = [
+    {
+      task: 'no',
+      id: 1,
+      completed: false
+    },
+    {
+      task: 'yes',
+      id: 2,
+      completed: false
+    },
+    {
+      task: 'maybe?',
+      id: 3,
+      completed: false
+    }
+]
 
 class App extends React.Component {
   // you will need a place to store your state in this component.
@@ -57,9 +72,9 @@ clearCompleted = () => {
 
   render() {
     return (
-      <div>
-        <div>
-          <h2>Welcome to your Todo App!</h2>
+      <div className='App'>
+        <div className='todoContainer'>
+          <h2 className='title'>Welcome to your Todo App!</h2>
           <TodoForm addTodo={this.addTodo} />
         </div>
         <TodoList 
